@@ -31,6 +31,6 @@ def report(ip, createAbuseTemplateFunctionResult):
             db.write(ip)
             return None
         for x in abuse:
-            rsp += email('Abuse Report for IP Address ' + ip, x, createAbuseTemplateFunctionResult) + "\n\n"
+            rsp += str(str(email('Abuse Report for IP Address ' + ip, x, createAbuseTemplateFunctionResult)) + "\n\n")
         db.write(ip)
         return rsp
