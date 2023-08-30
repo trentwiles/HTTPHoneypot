@@ -36,7 +36,7 @@ def any(path):
         ua = request.headers.get('User-Agent')
     except:
         ua = ""
-    dst = "443" if request.environ.get('wsgi.url_scheme') == 'https' else "80"
+    dst = "443"
     print(logger.createAbuseTemplate(request.environ['HTTP_X_FORWARDED_FOR'], request.path, request.method, ua, dst, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     #logger.report(request.environ['HTTP_X_FORWARDED_FOR'], logger.createAbuseTemplate(request.environ['HTTP_X_FORWARDED_FOR'], request.path, request.method, ua, dst, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     return ""
