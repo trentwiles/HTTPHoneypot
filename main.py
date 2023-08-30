@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, request
 import logger
+import webhook
 from datetime import datetime
 
 app = Flask(__name__)
@@ -26,8 +27,9 @@ def wploginredir():
     except:
         ua = ""
     dst = "443" if request.environ.get('wsgi.url_scheme') == 'https' else "80"
-    print(logger.createAbuseTemplate(request.environ['HTTP_X_FORWARDED_FOR'], request.path, request.method, ua, dst, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-    #logger.report(request.environ['HTTP_X_FORWARDED_FOR'], logger.createAbuseTemplate(request.environ['HTTP_X_FORWARDED_FOR'], request.path, request.method, ua, dst, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    #print(logger.createAbuseTemplate(request.environ['HTTP_X_FORWARDED_FOR'], request.path, request.method, ua, dst, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    x = logger.report(request.environ['HTTP_X_FORWARDED_FOR'], logger.createAbuseTemplate(request.environ['HTTP_X_FORWARDED_FOR'], request.path, request.method, ua, dst, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    webhook.webhook(x)
     return redirect('/wp-login.php')
 
 @app.route('/<path>', methods=["GET", "POST", "DELETE", "HEAD", "OPTIONS"])
@@ -37,8 +39,9 @@ def any(path):
     except:
         ua = ""
     dst = "443"
-    print(logger.createAbuseTemplate(request.environ['HTTP_X_FORWARDED_FOR'], request.path, request.method, ua, dst, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-    #logger.report(request.environ['HTTP_X_FORWARDED_FOR'], logger.createAbuseTemplate(request.environ['HTTP_X_FORWARDED_FOR'], request.path, request.method, ua, dst, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    #print(logger.createAbuseTemplate(request.environ['HTTP_X_FORWARDED_FOR'], request.path, request.method, ua, dst, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    x = logger.report(request.environ['HTTP_X_FORWARDED_FOR'], logger.createAbuseTemplate(request.environ['HTTP_X_FORWARDED_FOR'], request.path, request.method, ua, dst, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    webhook.webhook(x)
     return ""
 
 
