@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, Response
 import logger
 import webhook
 from datetime import datetime
@@ -15,6 +15,10 @@ def favi():
 
 def nullroute():
     return ""
+
+@app.route("/robots.txt", methods=["GET"])
+def robots():
+    return Response("User-agent: *\nDisallow:", content_type="text/plain")
 
 @app.route('/wp-login.php', methods=["GET"])
 def wplogin():
