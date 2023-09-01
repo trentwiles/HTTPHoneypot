@@ -1,20 +1,25 @@
-import os
+import requests
+import json
 
-def write(ip):
-    with open('db.txt', 'a') as w:
-        w.write(ip + "\n")
+rdb_endpoint = json.loads(open('config.json').read())["restdb_endpoint"]
+rdb_api_key = json.loads(open('config.json').read())["rdp_api_key"]
 
-def search(ip):
-    if not os.path.exists('db.txt'):
-        with open('db.txt', 'a') as w:
-            w.write('127.0.0.1\n')
-
-    with open('db.txt', 'r') as w:
-        for x in w.readlines():
-            if ip == x:
-                return True
+def checkAPI(ip):
+    r = requests.get("https://"+ rdb_endpoint + ".restdb.io/rest/addys", headers={"x-apikey": rdb_api_key})
+    for record in r.json()[0]:
+        if record["ips"] == str(ip):
+            return True
+        
     return False
 
+def addIP(ip):
+    r = requests.post("https://"+ rdb_endpoint + ".restdb.io/rest/addys", headers={"x-apikey": rdb_api_key}, data={"ips": ip})
+    if r.status_code == 200:
+        return True
+    else:
+        return False
+    
 def clear():
-    if os.path.exists('db.txt'):
-        os.remove('db.txt')
+    r = requests.get("https://"+ rdb_endpoint + ".restdb.io/rest/addys", headers={"x-apikey": rdb_api_key})
+    for record in r.json()[0]:
+        x = requests.delete("https://"+ rdb_endpoint + ".restdb.io/rest/addys/" + str(record["_id"]), headers={"x-apikey": rdb_api_key})
