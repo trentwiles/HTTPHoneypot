@@ -1,3 +1,3 @@
-import logger
+import db
 
-logger.email("hello", "test@example.com", "Hello,\n\nThis is a notice that one of your systems")
+print(db.checkAPI("1.1.1.1"))

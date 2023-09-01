@@ -6,7 +6,7 @@ rdb_api_key = json.loads(open('config.json').read())["rdp_api_key"]
 
 def checkAPI(ip):
     r = requests.get("https://"+ rdb_endpoint + ".restdb.io/rest/addys", headers={"x-apikey": rdb_api_key})
-    for record in r.json()[0]:
+    for record in r.json():
         if record["ips"] == str(ip):
             return True
         
@@ -21,5 +21,12 @@ def addIP(ip):
     
 def clear():
     r = requests.get("https://"+ rdb_endpoint + ".restdb.io/rest/addys", headers={"x-apikey": rdb_api_key})
-    for record in r.json()[0]:
+    for record in r.json():
         x = requests.delete("https://"+ rdb_endpoint + ".restdb.io/rest/addys/" + str(record["_id"]), headers={"x-apikey": rdb_api_key})
+    if r.status_code == 200:
+        return True
+    else:
+        return False
+
+def listAll():
+    return requests.get("https://"+ rdb_endpoint + ".restdb.io/rest/addys", headers={"x-apikey": rdb_api_key}).json()
