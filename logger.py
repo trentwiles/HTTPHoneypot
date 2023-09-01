@@ -5,6 +5,7 @@ import sendgrid
 import os
 import db
 from sendgrid.helpers.mail import Mail, Email, To, Content
+import webhook
 
 qf = ContactFinder()
 
@@ -31,6 +32,8 @@ def report(ip, createAbuseTemplateFunctionResult):
             db.addIP(ip)
             return None
         for x in abuse:
-            rsp += str(str(email('Abuse Report for IP Address ' + ip, x, createAbuseTemplateFunctionResult)) + "\n\n")
+            rsp += "Emailed " + x + ". Body of the email was " + createAbuseTemplateFunctionResult + "\n\n"
+            email('Abuse Report for IP Address ' + ip, x, createAbuseTemplateFunctionResult)
+        webhook.webhook(rsp)
         db.addIP(ip)
-        return rsp
+        return 
