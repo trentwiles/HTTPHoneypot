@@ -10,7 +10,7 @@ import webhook
 qf = ContactFinder()
 
 def createAbuseTemplate(ip, path, http_type, ua, dst, timestamp):
-    return "Hello,\n\nOur systems have detected malicous traffic from an IP address belonging to your network to a honeypot. Logs of this incident are as follows:\n\n\nIP address: " + ip + "\nHTTP request type: " + http_type + "\nHTTP request path: " + path + "\nHTTP User Agent: " + ua + "\nDestination port: " + dst + "\nTimestamp: " + timestamp + "\n\nPlease review this request and terminate the source of this threat if required.\n\nThank you,\nTrent Wiles Abuse Reporting Project"
+    return "Hello,\n\nOur systems have detected malicous traffic from an IP address belonging to your network to a honeypot. Logs of this incident are as follows:\n\n\nIP address: " + ip + "\nHTTP request type: " + http_type + "\nHTTP request path: " + path + "\nHTTP User Agent: " + ua + "\nDestination port: " + dst + "\nTimestamp: " + timestamp + "\n\nPlease review this request and terminate the source of this threat if required.\n\nThank you,\nTrent Wiles Abuse Reporting Project\nhttps://trentwil.es/abuse.html"
 
 def email(subject, to, data):
     sg = sendgrid.SendGridAPIClient(api_key=json.loads(open('config.json').read())['key'])
