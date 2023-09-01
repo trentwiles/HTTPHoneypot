@@ -29,7 +29,6 @@ def wploginredir():
     dst = "443" if request.environ.get('wsgi.url_scheme') == 'https' else "80"
     #print(logger.createAbuseTemplate(request.environ['HTTP_X_FORWARDED_FOR'], request.path, request.method, ua, dst, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     x = logger.report(request.environ['HTTP_X_FORWARDED_FOR'], logger.createAbuseTemplate(request.environ['HTTP_X_FORWARDED_FOR'], request.path, request.method, ua, dst, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-    webhook.webhook()
     return redirect('/wp-login.php')
 
 @app.route('/<path>', methods=["GET", "POST", "DELETE", "HEAD", "OPTIONS"])
@@ -41,7 +40,6 @@ def any(path):
     dst = "443"
     #print(logger.createAbuseTemplate(request.environ['HTTP_X_FORWARDED_FOR'], request.path, request.method, ua, dst, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     x = logger.report(request.environ['HTTP_X_FORWARDED_FOR'], logger.createAbuseTemplate(request.environ['HTTP_X_FORWARDED_FOR'], request.path, request.method, ua, dst, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-    webhook.webhook(x)
     return ""
 
 
