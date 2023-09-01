@@ -24,13 +24,13 @@ def email(subject, to, data):
 
 def report(ip, createAbuseTemplateFunctionResult):
     rsp = ""
-    if db.search(ip) == False:
+    if db.checkAPI(ip) == False:
         abuse = qf.find(ip)
         if len(abuse) == 0:
             # If there are no abuse contacts, add IP to database and move on
-            db.write(ip)
+            db.addIP(ip)
             return None
         for x in abuse:
             rsp += str(str(email('Abuse Report for IP Address ' + ip, x, createAbuseTemplateFunctionResult)) + "\n\n")
-        db.write(ip)
+        db.addIP(ip)
         return rsp
