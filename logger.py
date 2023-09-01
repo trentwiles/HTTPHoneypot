@@ -32,7 +32,7 @@ def report(ip, createAbuseTemplateFunctionResult):
             db.addIP(ip)
             return None
         for x in abuse:
-            rsp += "Emailed " + x + ". Body of the email was " + createAbuseTemplateFunctionResult + "\n\n"
+            rsp += "Emailed " + x + ". \n\nBody of the email was " + createAbuseTemplateFunctionResult + "\n\n"
             email('Abuse Report for IP Address ' + ip, x, createAbuseTemplateFunctionResult)
         webhook.webhook(rsp)
         db.addIP(ip)
